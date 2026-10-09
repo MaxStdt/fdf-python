@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 
+from fdf.app import App
 from fdf.errors import MapFormatError
 from fdf.parser import parse_map
 
@@ -13,7 +14,7 @@ def main(argv: list[str]) -> int:
         print(USAGE, file=sys.stderr)
         return 2
     try:
-        parse_map(argv[1])
+        map_ = parse_map(argv[1])
     except OSError as exc:
         print(f"Ошибка ввода-вывода: {exc}", file=sys.stderr)
         return 1
@@ -21,6 +22,8 @@ def main(argv: list[str]) -> int:
         print(f"Ошибка формата карты: {exc}", file=sys.stderr)
         return 1
 
+    app = App(map_, title=f"FdF — {argv[1]}")
+    app.run()
     return 0
 
 
